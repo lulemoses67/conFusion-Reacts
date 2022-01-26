@@ -15,7 +15,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
                 isModalOpen: false
             };
             this.toggleModal = this.toggleModal.bind(this);
-            this.toggleModal = this.toggleModal.bind(this);
+            this.handleSubmit = this.handleSubmit.bind(this);
         }
     
         handleSubmit(values) {
