@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem,  Button, Modal, ModalHeader, ModalBody, Label, Col, Row} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
+import { Loading } from "./LoadingComponent";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -18,16 +19,19 @@ const minLength = (len) => (val) => val && (val.length >= len);
             this.handleSubmit = this.handleSubmit.bind(this);
         }
     
-        handleSubmit(values) {
-            console.log('Current State is: ' + JSON.stringify(values));
-            this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
-        }
-    
         toggleModal() {
             this.setState({
                 isModalOpen: !this.state.isModalOpen
             });
         }
+        
+        handleSubmit(values) {
+            this.toggleModal();
+            console.log('Current State is: ' + JSON.stringify(values));
+            this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        }
+    
+        
         render() {
             return (
                 <>
@@ -145,7 +149,22 @@ const minLength = (len) => (val) => val && (val.length >= len);
     }
 
     const  DishDetail = (props) => {
-
+        if(props.isLoading) {
+            return (
+                <div className="container">
+                    <div className="row">
+                        <Loading/>
+                    </div>
+                </div>
+            );
+        }
+        else if(props.errMess){
+            <div className="container">
+                <div className="row">
+                    <h4>{props.errMess}</h4>
+                </div>
+            </div>
+        }
         if (props.dish != null){
             return(
                 <div className="container">
