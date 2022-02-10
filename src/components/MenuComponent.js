@@ -1,30 +1,32 @@
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import React from 'react';
+import { Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 
-function RenderMenuItem ({dish}) {
-    return (
-        <Link to={`/menu/${dish.id}`}>
-            <Card>
-                <CardImg width="100%" src={dish.image} alt={dish.name} />
+function RenderMenuItem({dish, onClick}) {
+    return(
+        <Card>
+            <Link to={`/menu/${dish.id}`}>
+                <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
                 <CardImgOverlay>
-                    <CardTitle>{dish.name}</CardTitle>
-                </CardImgOverlay>
-            </Card>
-        </Link>
+                    <CardTitle><strong>{dish.name}</strong></CardTitle>
+                </CardImgOverlay>        
+            </Link>
+        </Card>
+            
     );
 }
-
+   
 const Menu = (props) => {
-
     const menu = props.dishes.dishes.map((dish) => {
-        return ( 
-            <div  className="col-12 col-md-5 m-1" key={dish.id}>
+        return (
+            <div key={dish.id} className="col-12 col-md-5 m-1">
                 <RenderMenuItem dish={dish} />
             </div>
         );
     });
-
+    
     if (props.dishes.isLoading) {
         return(
             <div className="container">
@@ -33,8 +35,7 @@ const Menu = (props) => {
                 </div>
             </div>
         );
-    }
-    else if (props.dishes.errMess) {
+    } else if (props.dishes.errMess) {
         return(
             <div className="container">
                 <div className="row"> 
@@ -44,9 +45,8 @@ const Menu = (props) => {
                 </div>
             </div>
         );
-    }
-    else
-        return ( 
+    } else {
+        return (
             <div className="container">
                 <div className="row">
                     <Breadcrumb>
@@ -56,13 +56,17 @@ const Menu = (props) => {
                     <div className="col-12">
                         <h3>Menu</h3>
                         <hr />
-                    </div>   
+                    </div>  
                 </div>
                 <div className="row">
                     {menu}
                 </div>
+                <div className="row">
+                    
+                </div>
             </div>
         );
+    }
 }
- 
+
 export default Menu;
